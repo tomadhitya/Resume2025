@@ -42,17 +42,4 @@
     left: 10px;
 }
 
-.next {
-    right: 10px;
-}
-
-/* Sembunyikan panah jika diperlukan */
-.prev {
-    display: none; /* Sembunyikan panah kiri di awal */
-}
-
-@media (max-width: 460px) {
-    .wrapper {
-        width: 90%;
-    }
-}
+.nex
