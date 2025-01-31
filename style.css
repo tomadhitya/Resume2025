@@ -1,23 +1,58 @@
+/* CSS untuk layout dan tampilan slider */
+.images {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s ease-out; /* Animasi lebih lambat dan lebih halus */
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+}
+
+.images img {
+    width: 100%;
+}
+
+.wrapper {
+    width: 460px;
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Tombol panah */
 .prev, .next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.7); /* Warna putih transparan */
-    border: none;
-    padding: 10px;
+    color: rgba(255, 255, 255, 0.4); /* Transparansi lebih tinggi */
+    padding: 12px 16px; /* Ukuran tombol panah lebih besar */
     cursor: pointer;
-    font-size: 30px; /* Ukuran font lebih besar */
+    font-size: 30px; /* Ukuran font panah sedikit lebih besar */
     z-index: 10;
+    background: none; /* Menghilangkan background */
+    border: none; /* Menghilangkan border */
+    transition: color 0.3s ease, background-color 0.3s ease; /* Efek transisi untuk hover */
+    border-radius: 50%; /* Menjadikan tombol lebih bulat */
 }
 
+/* Efek hover */
 .prev:hover, .next:hover {
     color: rgba(255, 255, 255, 1); /* Warna panah lebih terang saat hover */
+    background-color: rgba(0, 0, 0, 0.3); /* Background transparan saat hover */
 }
 
+/* Posisi panah kiri dan kanan di ujung layar */
 .prev {
-    left: 10px;
+    left: 0; /* Geser ke kiri layar */
 }
 
 .next {
-    right: 10px;
+    right: 0; /* Geser ke kanan layar */
+}
+
+@media (max-width: 460px) {
+    .wrapper {
+        width: 90%;
+    }
 }
