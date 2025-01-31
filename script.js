@@ -46,6 +46,15 @@ function toggleArrows() {
     }
 }
 
+// Event listener untuk tombol panah
+prevArrow.addEventListener("click", function() {
+    prevSlide(); // Geser ke slide sebelumnya
+});
+
+nextArrow.addEventListener("click", function() {
+    nextSlide(); // Geser ke slide berikutnya
+});
+
 // Event listener untuk sentuhan di layar (mobile)
 slides.addEventListener('touchstart', function(e) {
     startX = e.touches[0].pageX; // Mencatat posisi awal gesekan
