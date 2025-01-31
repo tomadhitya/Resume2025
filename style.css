@@ -25,21 +25,41 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.7); /* Warna putih transparan */
+    color: rgba(255, 255, 255, 0.5); /* Warna putih dengan transparansi lebih tinggi */
     border: none;
-    padding: 10px;
+    padding: 15px 20px; /* Lebar dan tinggi tombol panah lebih besar */
     cursor: pointer;
-    font-size: 30px; /* Ukuran font lebih besar */
+    font-size: 40px; /* Ukuran font panah lebih besar */
     z-index: 10;
     background: none; /* Menghilangkan background */
+    border-radius: 50%; /* Menambahkan border-radius agar terlihat lebih halus */
+    transition: color 0.3s ease, background-color 0.3s ease; /* Efek transisi untuk hover */
 }
 
 .prev:hover, .next:hover {
     color: rgba(255, 255, 255, 1); /* Warna panah lebih terang saat hover */
+    background-color: rgba(0, 0, 0, 0.2); /* Tambahkan background transparan saat hover */
 }
 
 .prev {
-    left: 10px;
+    left: 10px; /* Posisi panah kiri */
 }
 
-.nex
+.next {
+    right: 10px; /* Posisi panah kanan */
+}
+
+/* Sembunyikan panah jika diperlukan */
+.prev {
+    display: block; /* Tampilkan panah kiri */
+}
+
+.next {
+    display: block; /* Tampilkan panah kanan */
+}
+
+@media (max-width: 460px) {
+    .wrapper {
+        width: 90%;
+    }
+}
