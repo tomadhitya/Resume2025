@@ -1,85 +1,62 @@
-let index = 0; // Index untuk menentukan gambar yang ditampilkan
-const slides = document.querySelector(".images"); // Seleksi elemen .images
-const totalSlides = document.querySelectorAll(".images img").length; // Total jumlah gambar
+// Mendapatkan elemen gambar dan tombol panah
+const slides = document.querySelector('.images');
+const prev = document.querySelector('.prev');
+const next = document.querySelector('.next');
+let currentSlide = 0; // Indeks slide yang aktif
+const totalSlides = document.querySelectorAll('.images img').length; // Jumlah total gambar
 
-// Seleksi tombol panah
-const prevArrow = document.querySelector(".prev");
-const nextArrow = document.querySelector(".next");
-
-let startX, endX; // Variabel untuk menyimpan posisi sentuhan
-let isTouching = false; // Flag untuk memeriksa apakah pergeseran aktif
-
-// Fungsi untuk update slide berdasarkan index
-function updateSlide() {
-    slides.style.transform = `translateX(-${index * 100}%)`;
-    toggleArrows(); // Memperbarui visibilitas panah
+// Fungsi untuk update posisi slider
+function updateSlider() {
+  // Memastikan slider hanya bergerak 1 halaman per waktu
+  slides.style.transform = `translateX(-${currentSlide * 100}%)`;
 }
 
-// Fungsi untuk geser ke slide berikutnya
-function nextSlide() {
-    if (index < totalSlides - 1) {
-        index++;
-        updateSlide();
-    }
-}
-
-// Fungsi untuk geser ke slide sebelumnya
-function prevSlide() {
-    if (index > 0) {
-        index--;
-        updateSlide();
-    }
-}
-
-// Fungsi untuk menyembunyikan atau menampilkan panah
-function toggleArrows() {
-    if (index === 0) {
-        prevArrow.style.display = "none"; // Sembunyikan panah kiri di page 1
-    } else {
-        prevArrow.style.display = "block"; // Tampilkan panah kiri di slide selain page 1
-    }
-
-    if (index === totalSlides - 1) {
-        nextArrow.style.display = "none"; // Sembunyikan panah kanan di page 6
-    } else {
-        nextArrow.style.display = "block"; // Tampilkan panah kanan di slide selain page 6
-    }
-}
-
-// Event listener untuk tombol panah
-prevArrow.addEventListener("click", function() {
-    prevSlide(); // Geser ke slide sebelumnya
+// Fungsi untuk menavigasi ke slide sebelumnya
+prev.addEventListener('click', () => {
+  if (currentSlide > 0) {
+    currentSlide--; // Kurangi indeks slide
+  } else {
+    currentSlide = totalSlides - 1; // Jika di slide pertama, pindah ke slide terakhir
+  }
+  updateSlider(); // Update tampilan slider
 });
 
-nextArrow.addEventListener("click", function() {
-    nextSlide(); // Geser ke slide berikutnya
+// Fungsi untuk menavigasi ke slide berikutnya
+next.addEventListener('click', () => {
+  if (currentSlide < totalSlides - 1) {
+    currentSlide++; // Tambah indeks slide
+  } else {
+    currentSlide = 0; // Jika di slide terakhir, kembali ke slide pertama
+  }
+  updateSlider(); // Update tampilan slider
 });
 
-// Event listener untuk sentuhan di layar (mobile)
-slides.addEventListener('touchstart', function(e) {
-    startX = e.touches[0].pageX; // Mencatat posisi awal gesekan
-    isTouching = true; // Menandakan bahwa pergeseran sedang berlangsung
-}, false);
+// Menambahkan fungsionalitas geser dengan swipe pada mobile (touchscreen)
+let touchStartX = 0;
+let touchEndX = 0;
 
-slides.addEventListener('touchmove', function(e) {
-    if (!isTouching) return; // Hanya memproses jika sedang menyentuh layar
-    endX = e.touches[0].pageX; // Posisi gesekan saat ini
-}, false);
+slides.addEventListener('touchstart', (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+});
 
-slides.addEventListener('touchend', function(e) {
-    if (!isTouching) return; // Hanya memproses jika sedang menyentuh layar
-    
-    let diff = startX - endX; // Menghitung selisih antara posisi awal dan akhir geseran
-    
-    if (Math.abs(diff) > 30) { // Minimum threshold 30px untuk deteksi geser
-        if (diff > 0 && index < totalSlides - 1) { // Geser ke kanan (next slide)
-            nextSlide();
-        } else if (diff < 0 && index > 0) { // Geser ke kiri (prev slide)
-            prevSlide();
-        }
+slides.addEventListener('touchend', (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+
+  if (touchStartX - touchEndX > 50) {
+    // Geser ke kanan (next)
+    if (currentSlide < totalSlides - 1) {
+      currentSlide++;
+    } else {
+      currentSlide = 0;
     }
-    isTouching = false; // Reset status sentuhan
-}, false);
+  } else if (touchEndX - touchStartX > 50) {
+    // Geser ke kiri (prev)
+    if (currentSlide > 0) {
+      currentSlide--;
+    } else {
+      currentSlide = totalSlides - 1;
+    }
+  }
 
-// Memanggil fungsi toggleArrows saat pertama kali halaman dimuat
-toggleArrows();
+  updateSlider(); // Update tampilan slider setelah swipe
+});
