@@ -1,6 +1,6 @@
-let index = 0;
-const slides = document.querySelector(".images");
-const totalSlides = document.querySelectorAll(".images img").length;
+let index = 0; // Index untuk menentukan gambar yang ditampilkan
+const slides = document.querySelector(".images"); // Seleksi elemen .images
+const totalSlides = document.querySelectorAll(".images img").length; // Total jumlah gambar
 
 let startX; // Variabel untuk menyimpan posisi sentuhan awal
 
