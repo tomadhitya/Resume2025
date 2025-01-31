@@ -46,7 +46,11 @@
     right: 10px;
 }
 
-/* Responsif untuk perangkat mobile */
+/* Sembunyikan panah jika diperlukan */
+.prev {
+    display: none; /* Sembunyikan panah kiri di awal */
+}
+
 @media (max-width: 460px) {
     .wrapper {
         width: 90%;
