@@ -6,7 +6,8 @@ const totalSlides = document.querySelectorAll(".images img").length; // Total ju
 const prevArrow = document.querySelector(".prev");
 const nextArrow = document.querySelector(".next");
 
-let startX; // Variabel untuk menyimpan posisi sentuhan awal
+let startX, endX; // Variabel untuk menyimpan posisi sentuhan
+let isTouching = false; // Flag untuk memeriksa apakah pergeseran aktif
 
 // Fungsi untuk update slide berdasarkan index
 function updateSlide() {
@@ -48,20 +49,27 @@ function toggleArrows() {
 // Event listener untuk sentuhan di layar (mobile)
 slides.addEventListener('touchstart', function(e) {
     startX = e.touches[0].pageX; // Mencatat posisi awal gesekan
+    isTouching = true; // Menandakan bahwa pergeseran sedang berlangsung
 }, false);
 
 slides.addEventListener('touchmove', function(e) {
-    let moveX = e.touches[0].pageX; // Posisi gesekan saat ini
-    let diff = startX - moveX;
+    if (!isTouching) return; // Hanya memproses jika sedang menyentuh layar
+    endX = e.touches[0].pageX; // Posisi gesekan saat ini
+}, false);
 
-    if (Math.abs(diff) > 30) { // Minimal perbedaan 30px untuk mendeteksi geseran
+slides.addEventListener('touchend', function(e) {
+    if (!isTouching) return; // Hanya memproses jika sedang menyentuh layar
+    
+    let diff = startX - endX; // Menghitung selisih antara posisi awal dan akhir geseran
+    
+    if (Math.abs(diff) > 30) { // Minimum threshold 30px untuk deteksi geser
         if (diff > 0 && index < totalSlides - 1) { // Geser ke kanan (next slide)
             nextSlide();
         } else if (diff < 0 && index > 0) { // Geser ke kiri (prev slide)
             prevSlide();
         }
-        startX = moveX; // Reset posisi awal setelah pergeseran
     }
+    isTouching = false; // Reset status sentuhan
 }, false);
 
 // Memanggil fungsi toggleArrows saat pertama kali halaman dimuat
