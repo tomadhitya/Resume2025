@@ -11,24 +11,20 @@ function updateSlide() {
 
 // Fungsi untuk geser ke slide berikutnya
 function nextSlide() {
-    // Geser ke slide 1 setelah slide terakhir (page 6 ke page 1)
-    if (index === totalSlides - 1) {
-        index = 0; 
-    } else {
+    // Hanya geser ke kanan jika bukan di page 6
+    if (index < totalSlides - 1) {
         index++;
+        updateSlide();
     }
-    updateSlide();
 }
 
 // Fungsi untuk geser ke slide sebelumnya
 function prevSlide() {
-    // Geser ke slide 6 setelah slide pertama (page 1 ke page 6)
-    if (index === 0) {
-        index = totalSlides - 1;
-    } else {
+    // Hanya geser ke kiri jika bukan di page 1
+    if (index > 0) {
         index--;
+        updateSlide();
     }
-    updateSlide();
 }
 
 // Event listener untuk sentuhan di layar (mobile)
@@ -40,7 +36,7 @@ slides.addEventListener('touchmove', function(e) {
     let moveX = e.touches[0].pageX; // Posisi gesekan saat ini
     let diff = startX - moveX;
 
-    // Memperbaiki gesture untuk arah geser yang lebih halus dan intuitif
+    // Memperbaiki gesture untuk arah geser yang lebih halus dan hanya 1 halaman
     if (Math.abs(diff) > 30) {  // Minimal perbedaan 30px untuk mendeteksi geseran
         if (diff > 0 && index < totalSlides - 1) { // Geser ke kanan (next slide)
             nextSlide();
